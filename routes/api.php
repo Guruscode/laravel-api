@@ -14,6 +14,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
+
+Route::post('/user-signup', 'UserController@userSignUp')->name('register.perform');
+Route::post("user-login", "UserController@userLogin");
+
+Route::get("user/{email}", "UserController@userDetail");
+
+
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
