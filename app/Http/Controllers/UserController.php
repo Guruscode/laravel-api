@@ -16,9 +16,9 @@ class UserController extends Controller
             "last_name"    =>      "required",
             "email"         =>      "required|email",
             "occupation"    =>      "required",
-            "bussines_type"    =>    "required",
+            "bussines_type"  =>    "required",
             "password"      =>      "required",
-            "location"    =>         "required"
+            "location"       =>         "required"
         ]);
         if($validator->fails()){
             return response()->json([
@@ -39,24 +39,37 @@ class UserController extends Controller
             "last_name"          =>          $last_name,
             "occupation"          =>          $request->occupation,
             "email"              =>          $request->email,
-            "bussines_type"       =>  $request->bussines_type,
+            "bussines_type"       =>          $request->bussines_type,
             "password"           =>          md5($request->password),
             "location"           =>          $request->location
         );
-        $user_status            =           User::where("email", $request->email)->first();
+        $user_status = User::where("email", $request->email)->first();
 
         if(!is_null($user_status)) {
-            return response()->json(["status" => "failed", "success" => false, "message" => "Whoops! email already registered"]);
+            return response()->json([
+                "status" => "failed",
+                 "success" => false,
+                  "message" => "Whoops! email already registered"
+                ]);
          }
 
-         $user                   =           User::create($userDataArray);
+         $user = User::create($userDataArray);
 
          if(!is_null($user)) {
-            return response()->json(["status" => $this->status_code, "success" => true, "message" => "Registration completed successfully", "data" => $user]);
+            return response()->json([
+                "status" => $this->status_code,
+                 "success" => true,
+                  "message" => "Registration completed successfully",
+                   "data" => $user
+                ]);
         }
 
         else {
-            return response()->json(["status" => "failed", "success" => false, "message" => "failed to register"]);
+            return response()->json([
+                "status" => "failed",
+                 "success" => false,
+                  "message" => "failed to register"
+                ]);
         }
     }
 
@@ -73,7 +86,10 @@ class UserController extends Controller
         );
 
         if($validator->fails()) {
-            return response()->json(["status" => "failed", "validation_error" => $validator->errors()]);
+            return response()->json([
+                "status" => "failed",
+                 "validation_error" => $validator->errors()
+                ]);
         }
 
 
